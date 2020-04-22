@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Sale;
+use App\Product;
 use Illuminate\Http\Request;
 
 class SaleController extends Controller
@@ -14,7 +15,7 @@ class SaleController extends Controller
      */
     public function index()
     {
-        $sales = Sale::all();
+        $sales = Sale::latest()->get();
         if(!$sales->isEmpty()){
             return response()->json($sales, 200);
         }{
@@ -23,7 +24,6 @@ class SaleController extends Controller
             ], 404);
         }
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -41,6 +41,15 @@ class SaleController extends Controller
      */
     public function store(Request $request)
     {
+        $unique_id = strtoupper(md5(time()));
+        $prefix = substr($unique_id, rand(1, 20), 2);
+        $sufix = substr($unique_id, rand(1, 20), 10);
+        $unique_id = $prefix.'-'.$sufix;
+        $request['ref_no'] = $unique_id;
+
+        foreach ($request['details'] as  $value) {
+            $this->updateRecord($value['id'], $value['quantity']);
+        }
 
         try {
 
@@ -55,6 +64,13 @@ class SaleController extends Controller
             ], 400);
 
         }
+    }
+
+    private function updateRecord($id, $update)
+    {
+        $product = Product::find($id);
+        $product->quantity =  $product->quantity - $update;
+        $product->save();
     }
 
     /**
@@ -109,6 +125,90 @@ class SaleController extends Controller
      */
     public function destroy(Sale $sale)
     {
-        //
+        dd($sale);
+    }
+
+    public function reverseSale(Request $request, Sale $sale) {
+
+        $sales = Sale::find($sale->id);
+        if(!$sales){
+            return response()->json([
+            'message' => 'Sale Record not found'
+        ], 404);
+
+        } else{
+
+            foreach ($request->details as $value) {
+                $this->addBack($value);
+            }
+
+            Sale::destroy($sale->id);
+
+            return response()->json([
+                'message' => 'Sale Reveresed Successfully'
+            ], 200);
+        }
+    }
+
+    private function addBack($value){
+
+        try {
+            $product = Product::find($value['id']);
+            $product->quantity = $product->quantity + $value['quantity'];
+            $product->save();
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
+
+    public function editSale(Request $request) {
+
+        $data = $request->all();
+        $old = $data[0];
+        $new = $data[1];
+
+        try {
+            foreach ($old['details'] as $valueOld) {
+                foreach ($new['details'] as $valueNew) {
+
+                    if ($valueOld['id'] == $valueNew['id']) {
+                        $this->remove($valueOld, $valueNew);
+                    } else {
+                        $this->addBack($valueOld);
+                    }
+                }
+            }
+            $sale = Sale::find($old['id'])->update($new);
+            return response()->json([
+                'message' => 'Sale Updated Successfully'
+            ], 200);
+
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'Error Occured'
+            ], 200);
+        }
+
+    }
+
+    private function remove($old, $new) {
+
+        try {
+            $product = Product::find($old['id']);
+
+            if ($old['quantity'] > $new['quantity']) {
+                $diff = $old['quantity'] - $new['quantity'];
+                $product->quantity = $product->quantity + $diff;
+            }
+
+            if ($old['quantity'] < $new['quantity']) {
+                $diff =$new['quantity'] - $old['quantity'];
+                $product->quantity = $product->quantity - $diff;
+            }
+
+            $product->save();
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
     }
 }

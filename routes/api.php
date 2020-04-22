@@ -17,7 +17,23 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
-Route::middleware('auth:api')->group( function () {
+Route::group(['middleware' => ['auth:api', 'json']], function () {
+
     Route::resource('product', 'ProductController');
     Route::resource('sale', 'SaleController');
+
+    Route::resource('profile', 'ProfileController');
+
+    Route::post('sale/reverse/{sale}', 'SaleController@reverseSale')->name('reverse');
+    Route::post('sale/edit', 'SaleController@editSale')->name('editSale');
+
+    Route::apiResource('products', 'ProductApiController');
+    Route::apiResource('sales', 'SaleApiController');
+
 });
+
+Route::post('register', 'Api\AuthController@register')->name('register');
+
+Route::post('login', 'Api\AuthController@login')->name('login');
+Route::post('userLogout', 'Api\AuthController@userLogout');
+

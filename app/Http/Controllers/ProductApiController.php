@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Product;
 use Illuminate\Http\Request;
 
-class ProductController extends Controller
+use App\Sale;
+use App\Product;
+
+class ProductApiController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +17,7 @@ class ProductController extends Controller
     public function index()
     {
 
-        $products =  Product::latest()->get();
+        $products =  Product::latest()->paginate(10);
 
         if (!$products->isEmpty()) {
             return response()->json($products, 200);
@@ -24,6 +26,7 @@ class ProductController extends Controller
                 "message" => "No record available"
             ], 404);
         }
+
     }
 
     /**
@@ -33,7 +36,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-
+        //
     }
 
     /**
@@ -44,49 +47,27 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-
-        $unique_id = md5(microtime());
-        $request['unique_id'] = $unique_id;
-
-        try {
-
-            $product = Product::create($request->all());
-
-            return response()->json($product, 200);
-
-        } catch (\Throwable $th) {
-
-            return response()->json(['message' => 'Invalid Request'], 400);
-
-        }
-
+        //
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Product  $product
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($product)
+    public function show($id)
     {
-        $product = Product::find($product);
-        if ($product != null){
-            return response()->json($product, 200);
-        } else {
-            return response()->json([
-                'message' => 'No record found'
-            ], 404);
-        }
+        //
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Product  $product
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product)
+    public function edit($id)
     {
         //
     }
@@ -95,17 +76,15 @@ class ProductController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Product  $product
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Product $product)
     {
-
         if ($product != null){
             try {
 
-                $product->quantity = $product->quantity + $request->quantity;
-                $product->save();
+                $product->update($request->all());
 
                 return response()->json($product, 200);
 
@@ -127,20 +106,11 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Product  $product
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($product)
+    public function destroy($id)
     {
-        $product = Product::destroy($product);
-        if ($product){
-            return response()->json([
-                'message' => 'Deleted'
-            ], 200);
-        } else {
-            return response()->json([
-                'message' => 'No record found'
-            ], 404);
-        }
+        //
     }
 }

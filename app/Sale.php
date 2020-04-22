@@ -8,7 +8,7 @@ class Sale extends Model
 {
 
     protected $fillable = [
-        'total', 'details'
+        'total', 'details', 'ref_no', 'user_id'
     ];
 
 
@@ -16,6 +16,9 @@ class Sale extends Model
         'details' => 'array'
     ];
 
-
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
 }

@@ -12,6 +12,6 @@
 */
 
 Route::get('/', function () {
-    return view('new');
+    return [];
 });
 Route::resource('sale', 'SaleController');
