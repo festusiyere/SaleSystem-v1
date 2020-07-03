@@ -46,11 +46,11 @@ class User extends Authenticatable
 
     public function sale()
     {
-        return $this->hasOne('App\Sale');
+        return $this->hasMany('App\Sale');
     }
 
     public function product()
     {
-        return $this->hasOne('App\Product');
+        return $this->hasMany('App\Product');
     }
 }

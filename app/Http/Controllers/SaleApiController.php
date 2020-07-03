@@ -16,13 +16,13 @@ class SaleApiController extends Controller
      */
     public function index()
     {
-        $sales = Sale::latest()->paginate(10);
+        $sales = auth()->user()->sale()->latest()->paginate(10);
         if(!$sales->isEmpty()){
             return response()->json($sales, 200);
         }{
             return response()->json([
                 'message' => 'No record Yet'
-            ], 404);
+            ], 200);
         }
     }
 

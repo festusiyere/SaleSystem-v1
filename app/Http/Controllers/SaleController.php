@@ -15,13 +15,13 @@ class SaleController extends Controller
      */
     public function index()
     {
-        $sales = Sale::latest()->get();
+        $sales = auth()->user()->sale()->latest()->get();
         if(!$sales->isEmpty()){
             return response()->json($sales, 200);
         }{
             return response()->json([
                 'message' => 'No record Yet'
-            ], 404);
+            ], 200);
         }
     }
     /**
@@ -53,7 +53,7 @@ class SaleController extends Controller
 
         try {
 
-            $sale = Sale::create($request->all());
+            $sale = auth()->user()->sale()->create($request->all());
 
             return response()->json($sale, 200);
 
@@ -68,7 +68,7 @@ class SaleController extends Controller
 
     private function updateRecord($id, $update)
     {
-        $product = Product::find($id);
+        $product = auth()->user()->product()->find($id);
         $product->quantity =  $product->quantity - $update;
         $product->save();
     }
@@ -81,14 +81,14 @@ class SaleController extends Controller
      */
     public function show($sale)
     {
-        $record = Sale::find($sale);
+        $record = auth()->user()->sale()->find($sale);
 
         if($record != null){
             return response()->json($record, 200);
         }{
             return response()->json([
                 'message' => 'Record not found'
-            ], 404);
+            ], 200);
         }
 
 
@@ -130,11 +130,11 @@ class SaleController extends Controller
 
     public function reverseSale(Request $request, Sale $sale) {
 
-        $sales = Sale::find($sale->id);
+        $sales = auth()->user()->sale()->find($sale->id);
         if(!$sales){
             return response()->json([
             'message' => 'Sale Record not found'
-        ], 404);
+        ], 200);
 
         } else{
 
@@ -153,7 +153,7 @@ class SaleController extends Controller
     private function addBack($value){
 
         try {
-            $product = Product::find($value['id']);
+            $product = auth()->user()->sale()->find($value['id']);
             $product->quantity = $product->quantity + $value['quantity'];
             $product->save();
         } catch (\Throwable $th) {
@@ -178,7 +178,7 @@ class SaleController extends Controller
                     }
                 }
             }
-            $sale = Sale::find($old['id'])->update($new);
+            $sale = auth()->user()->sale()->find($old['id'])->update($new);
             return response()->json([
                 'message' => 'Sale Updated Successfully'
             ], 200);
@@ -194,7 +194,7 @@ class SaleController extends Controller
     private function remove($old, $new) {
 
         try {
-            $product = Product::find($old['id']);
+            $product = auth()->user()->product()->find($old['id']);
 
             if ($old['quantity'] > $new['quantity']) {
                 $diff = $old['quantity'] - $new['quantity'];

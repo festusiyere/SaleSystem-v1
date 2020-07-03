@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\User;
 use App\Profile;
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
@@ -24,32 +26,37 @@ class AuthController extends Controller
         if (!empty($request->all())) {
 
             $validatedData = $request->validate([
-                'name' => 'required|max:55',
-                'email' => 'email|required|unique:users',
-                'password' => 'required|confirmed'
-            ]);
+            'name' => 'required|max:55',
+            'email' => 'email|required|unique:users',
+            'password' => 'required|confirmed'
+        ]);
 
-            $validatedData['password'] = Hash::make($validatedData['password']);
+        $validatedData['password'] = Hash::make($validatedData['password']);
 
-            $user = User::create($validatedData);
+        $user = User::create($validatedData);
 
-            Profile::create([
-                'user_id' => $user->id,
-            ]);
-            // Profile::create(compact($user->id));
+        Profile::create([
+            'user_id' => $user->id,
+        ]);
 
-            $access = $user->createToken('authToken')->accessToken;
+        if(auth()->attempt($request->only('email', 'password'))){
+            // return "Not Logged in";
+            $access = auth()->user()->createToken('authToken')->accessToken;
 
             return response()->json([
                 'user' => $user,
                 'accessToken' => $access,
-            ]);
+            ], 200);
+
+        }
+
 
         } else {
 
             return response()->json([
                 'message' => 'Empty content'
-            ]);
+        ], 404);
+
         }
 
     }
@@ -63,8 +70,8 @@ class AuthController extends Controller
 
             if (!auth()->attempt($loginData)) {
                 return response()->json([
-                'message' => 'invalid credentials',
-            ]);
+                'message' => 'Invalid credentials',
+            ], 401);
 
             }
 
@@ -72,8 +79,8 @@ class AuthController extends Controller
 
             return response()->json([
                 'user' => auth()->user(),
-                'accessToke' => $access,
-            ]);
+                'accessToken' => $access,
+        ], 200);
 
     }
 
@@ -83,5 +90,20 @@ class AuthController extends Controller
         return response()->json('Logout Successful', 200);
 
     }
+
+    public function user(Request $request){
+        return response()->json(auth()->user(), 200);
+    }
+
+    public function emailCheck(Request $request){
+
+        $user = User::where('email', $request['email'])->exists();
+        if($user) {
+            return 1;
+        }
+        return 0;
+
+    }
+
 
 }

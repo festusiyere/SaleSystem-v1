@@ -36,7 +36,7 @@ class ProfileController extends Controller
     public function store(Request $request)
     {
 
-        $profile = Profile::create($request-all());
+        $profile = auth()->user()->profile()->create($request-all());
 
         return response()->json($profile, 200);
 
@@ -50,7 +50,7 @@ class ProfileController extends Controller
      */
     public function show($profile)
     {
-        $profile = Profile::find($profile);
+        $profile = auth()->user()->product()->find($profile);
         if($profile != auth()->user()->profile){
             return response()->json('Unauthorized', 401);
         } else{
@@ -79,7 +79,7 @@ class ProfileController extends Controller
      */
     public function update(Request $request, Profile $profile)
     {
-        $profile = Profile::update($request-all());
+        $profile = auth()->user()->product()->update($request-all());
 
         return response()->json($profile, 200);
 

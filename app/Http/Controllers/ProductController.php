@@ -15,14 +15,14 @@ class ProductController extends Controller
     public function index()
     {
 
-        $products =  Product::latest()->get();
+        $products =  auth()->user()->product()->latest()->get();
 
         if (!$products->isEmpty()) {
             return response()->json($products, 200);
         } else{
             return response()->json([
                 "message" => "No record available"
-            ], 404);
+            ], 200);
         }
     }
 
@@ -50,7 +50,7 @@ class ProductController extends Controller
 
         try {
 
-            $product = Product::create($request->all());
+            $product = auth()->user()->product()->create($request->all());
 
             return response()->json($product, 200);
 
@@ -70,13 +70,13 @@ class ProductController extends Controller
      */
     public function show($product)
     {
-        $product = Product::find($product);
+        $product = auth()->user()->product()->find($product);
         if ($product != null){
             return response()->json($product, 200);
         } else {
             return response()->json([
                 'message' => 'No record found'
-            ], 404);
+            ], 200);
         }
     }
 
@@ -113,13 +113,13 @@ class ProductController extends Controller
 
                 return response()->json([
                 'message' => 'No record found'
-            ], 404);
+            ], 200);
 
             }
         } else {
             return response()->json([
                 'message' => 'No record found'
-            ], 404);
+            ], 200);
         }
 
     }
@@ -140,7 +140,7 @@ class ProductController extends Controller
         } else {
             return response()->json([
                 'message' => 'No record found'
-            ], 404);
+            ], 200);
         }
     }
 }

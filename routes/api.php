@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
+
 Route::group(['middleware' => ['auth:api', 'json']], function () {
 
     Route::resource('product', 'ProductController');
@@ -29,11 +30,13 @@ Route::group(['middleware' => ['auth:api', 'json']], function () {
 
     Route::apiResource('products', 'ProductApiController');
     Route::apiResource('sales', 'SaleApiController');
+    Route::get('user', 'Api\AuthController@user');
 
 });
 
-Route::post('register', 'Api\AuthController@register')->name('register');
+Route::post('register', 'Api\AuthController@register');
 
 Route::post('login', 'Api\AuthController@login')->name('login');
+Route::post('email', 'Api\AuthController@emailCheck');
 Route::post('userLogout', 'Api\AuthController@userLogout');
 

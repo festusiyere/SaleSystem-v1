@@ -24,7 +24,7 @@ class ProductApiController extends Controller
         } else{
             return response()->json([
                 "message" => "No record available"
-            ], 404);
+            ], 200);
         }
 
     }
@@ -92,13 +92,13 @@ class ProductApiController extends Controller
 
                 return response()->json([
                 'message' => 'No record found'
-            ], 404);
+            ], 200);
 
             }
         } else {
             return response()->json([
                 'message' => 'No record found'
-            ], 404);
+            ], 200);
         }
 
     }

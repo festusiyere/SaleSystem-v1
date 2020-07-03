@@ -15,3 +15,4 @@ Route::get('/', function () {
     return [];
 });
 Route::resource('sale', 'SaleController');
+Auth::routes();
