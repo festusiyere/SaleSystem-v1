@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Sale;
 use App\Product;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class SaleController extends Controller
@@ -210,5 +211,13 @@ class SaleController extends Controller
         } catch (\Throwable $th) {
             //throw $th;
         }
+    }
+
+    public function weeklySales(){
+
+        $referenceDate  = Carbon::now()->subday(7);
+        $id = auth()->id();
+        $data = Sale::where('user_id', $id)->where('created_at' ,'>=',  $referenceDate)->get();
+        return $data;
     }
 }

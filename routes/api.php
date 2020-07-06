@@ -32,9 +32,11 @@ Route::group(['middleware' => ['auth:api', 'json']], function () {
     Route::apiResource('sales', 'SaleApiController');
     Route::get('user', 'Api\AuthController@user');
 
+    Route::get('weeklySales', 'SaleController@weeklySales');
 });
 
 Route::post('register', 'Api\AuthController@register');
+
 
 Route::post('login', 'Api\AuthController@login')->name('login');
 Route::post('email', 'Api\AuthController@emailCheck');
