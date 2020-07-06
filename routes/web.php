@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return [];
+    return "Hello welcome to my application";
 });
 Route::resource('sale', 'SaleController');
 Auth::routes();
