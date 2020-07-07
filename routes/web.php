@@ -16,5 +16,7 @@
 // });
 
 Route::view('/', 'home');
-Route::resource('sale', 'SaleController');
+Route::view('sale', 'sales');
+
+// Route::resource('sale', 'SaleController');
 Auth::routes();
