@@ -11,8 +11,10 @@
 |
 */
 
-Route::get('/', function () {
-    return "Hello welcome to my application";
-});
+// Route::get('/', function () {
+//     return "Hello welcome to my application";
+// });
+
+Route::view('/', 'home');
 Route::resource('sale', 'SaleController');
 Auth::routes();

@@ -92,7 +92,6 @@ class SaleController extends Controller
             ], 200);
         }
 
-
     }
 
     /**
@@ -217,7 +216,7 @@ class SaleController extends Controller
 
         $referenceDate  = Carbon::now()->subday(7);
         $id = auth()->id();
-        $data = Sale::where('user_id', $id)->where('created_at' ,'>=',  $referenceDate)->get();
+        $data = Sale::where('user_id', $id)->where('created_at' , '>=' ,  $referenceDate)->get();
         return $data;
     }
 }

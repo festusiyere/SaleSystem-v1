@@ -1,0 +1,214 @@
+@import url("https://fonts.googleapis.com/css?family=Merriweather+Sans:300,400,700|Open+Sans:400,600,700&display=swap");
+@import url("https://fonts.googleapis.com/css?family=Handlee&display=swap");
+
+* {
+    box-sizing: border-box;
+}
+
+*:focus {
+    outline: none !important;
+}
+
+html,
+body {
+    color: rgb(255, 226, 121);
+    font-size: 14px;
+    font-family: "Open Sans", sans-serif;
+    margin: 0;
+    text-align: left;
+    line-height: 1.5;
+    font-weight: 400;
+}
+
+/* Turn on a 13x13 scrollbar */
+::-webkit-scrollbar {
+    width: 7px;
+    border-radius: 5px;
+}
+
+/* Track below and above */
+::-webkit-scrollbar-track {
+    background-color: rgba(223, 227, 235, 0.67);
+    border-radius: 10px;
+}
+
+/* The thumb itself */
+::-webkit-scrollbar-thumb {
+    background: rgb(160, 160, 160);
+    border-radius: 10px;
+
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(94, 94, 94);
+}
+
+*,
+::after,
+::before {
+    outline: none !important;
+    box-sizing: border-box;
+}
+
+a {
+    color: #3d4d6a;
+}
+
+a:hover,
+a:active {
+    color: #182742;
+}
+
+body, html{
+    margin: 0;
+    padding: 0;
+}
+
+.home{
+    height: 100vh;
+    width: 100%;
+    background:
+    linear-gradient(
+        rgba(24, 39, 66, 0.692),
+        rgba(24, 39, 66, 0.596)
+      ),
+      url("./../images/clay-banks-Ox6SW103KtM-unsplash.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-origin: content-box;
+    background-position: top center;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+    .home{
+        background-position: top left;
+    }
+
+  }
+
+
+  @media (min-width: 320px) and (max-width: 480px) {
+    .home{
+        background-position: top left;
+    }
+
+  }
+
+
+.logo {
+    position: absolute;
+    top: 1%;
+    left: 1%;
+    background: rgba(255, 226, 121, 0.842);
+    height: 3rem;
+    width: 3rem;
+    padding: .7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+}
+
+.logo img {
+    width: 85%;
+    height: auto;
+}
+
+.name{
+    font-family: 'Handlee', cursive;
+    /* font-family: 'Merriweather Sans', sans-serif; */
+    font-weight: 700;
+    font-size: 3rem;
+    color: #dadada;
+}
+
+.disc{
+    font-family: 'Handlee', cursive;
+    color: #bdbdbd;
+}
+
+.footer {
+    font-family: 'Handlee', cursive;
+    /* font-weight: bold; */
+    color: #182742;
+    position: absolute;
+    bottom: 10%;
+    font-size: 1.5rem;
+}
+
+.footer a {
+    text-decoration: none;
+    font-family: 'Handlee', cursive;
+    color: #fb2056;
+    color: rgb(255, 226, 121);
+    transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    -moz-transition: all .4s ease-in-out;
+    -ms-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+    color: #e01a4b;
+}
+
+.link {
+    margin: 2rem ;
+}
+
+.disc{
+    font-size: 1.2rem;
+}
+
+.link a{
+
+    text-decoration: none;
+    font-weight: bold;
+    padding: 1rem 2rem;
+    border-radius: 4px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #252440;
+    -webkit-border-radius: 4px !important;
+    -moz-border-radius: 4px !important;
+    -ms-border-radius: 4px !important;
+    -o-border-radius: 4px !important;
+    background-color: rgba(255, 226, 121, 0.884);
+    transition: all .4s ease-in-out;
+    -webkit-transition: all .4s ease-in-out;
+    -moz-transition: all .4s ease-in-out;
+    -ms-transition: all .4s ease-in-out;
+    -o-transition: all .4s ease-in-out;
+}
+
+.link a svg{
+    margin-left: 10px;
+    transition: transform .3s ease-in-out;
+    -webkit-transition: transform .3s ease-in-out;
+    -moz-transition: transform .3s ease-in-out;
+    -ms-transition: transform .3s ease-in-out;
+    -o-transition: transform .3s ease-in-out;
+}
+
+.link a:hover{
+    background-color: rgba(255, 226, 121, 0.678);
+}
+
+.link a:hover svg{
+    transform: translateX(5px);
+    -webkit-transform: translateX(5px);
+    -moz-transform: translateX(5px);
+    -ms-transform: translateX(5px);
+    -o-transform: translateX(5px);
+}
